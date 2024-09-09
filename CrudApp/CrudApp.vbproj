@@ -69,7 +69,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interaccion.vb" />
+    <Compile Include="InteraccionCliente.vb" />
+    <Compile Include="InteraccionProducto.vb" />
+    <Compile Include="InteraccionVenta.vb" />
     <Compile Include="Principal.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

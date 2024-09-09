@@ -13,6 +13,7 @@ Public Class VentaNegocio
                 aux.idCliente = CType(datos.lector("IDCliente"), Integer)
                 aux.fecha = CType(datos.lector("Fecha"), Date)
                 aux.total = CType(datos.lector("Total"), Decimal)
+                modificarTotal(aux.id)
                 lista.Add(aux)
             End While
             Return lista
@@ -47,11 +48,9 @@ Public Class VentaNegocio
     Public Sub agregar(venta As Venta)
         Dim datos As New AccesoDatos
         Try
-            datos.setearConsulta("INSERT INTO ventas (ID, IDCliente, Fecha, Total) values (@id, @idcliente, @fecha, @total)")
-            datos.setearParametro("@id", venta.id)
+            datos.setearConsulta("INSERT INTO ventas ( IDCliente, Fecha) values ( @idcliente, @fecha)")
             datos.setearParametro("@idcliente", venta.idCliente)
             datos.setearParametro("@fecha", venta.fecha)
-            datos.setearParametro("@total", venta.total)
             datos.ejecutarAccion()
         Catch ex As Exception
             Throw ex
@@ -63,11 +62,24 @@ Public Class VentaNegocio
     Public Sub modificar(venta As Venta)
         Dim datos As New AccesoDatos
         Try
-            datos.setearConsulta("UPDATE ventas SET IDCliente = @idcliente, Fecha = @fecha, Total = @total where ID = @id")
+            datos.setearConsulta("UPDATE ventas SET IDCliente = @idcliente, Fecha = @fecha where ID = @id")
             datos.setearParametro("@id", venta.id)
             datos.setearParametro("@idcliente", venta.idCliente)
             datos.setearParametro("@fecha", venta.fecha)
-            datos.setearParametro("@total", venta.total)
+            modificarTotal(venta.id)
+            datos.ejecutarAccion()
+        Catch ex As Exception
+            Throw ex
+        Finally
+            datos.cerrarConexion()
+        End Try
+    End Sub
+
+    Public Sub modificarTotal(id As Integer)
+        Dim datos As New AccesoDatos
+        Try
+            datos.setearConsulta("UPDATE ventas SET Total = Totales.TotalVentas FROM ventas JOIN (SELECT IDVenta, SUM(PrecioTotal) AS TotalVentas FROM ventasitems GROUP BY IDVenta) AS Totales ON ventas.ID = Totales.IDVenta WHERE ventas.ID = @id")
+            datos.setearParametro("@id", id)
             datos.ejecutarAccion()
         Catch ex As Exception
             Throw ex

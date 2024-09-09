@@ -52,7 +52,7 @@
         End Property
 
         Public Overrides Function ToString() As String
-            Return $"{id.ToString.PadRight(10)} {idCliente.ToString.PadRight(13)} {fecha.ToString.PadRight(12)} {total.ToString.PadRight(20)}"
+            Return $"{id.ToString.PadRight(10)} {idCliente.ToString.PadRight(13)} {fecha.ToString("yyyy-MM-dd").PadRight(12)} {"$" + total.ToString.PadRight(20)}"
         End Function
     End Class
 End Namespace
