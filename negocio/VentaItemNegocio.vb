@@ -9,12 +9,12 @@ Public Class VentaItemNegocio
             datos.ejecutarLectura()
             While (datos.lector.Read())
                 Dim aux As New VentaItem
-                aux.id = CType(datos.lector("ID"), Integer)
-                aux.idVenta = CType(datos.lector("IDVenta"), Integer)
-                aux.idProducto = CType(datos.lector("IDProducto"), Integer)
-                aux.precioUnitario = CType(datos.lector("PrecioUnitario"), Decimal)
-                aux.cantidad = CType(datos.lector("Cantidad"), Integer)
-                aux.precioTotal = CType(datos.lector("PrecioTotal"), Decimal)
+                aux.id = If(IsDBNull(datos.lector("ID")), 0, CType(datos.lector("ID"), Integer))
+                aux.idVenta = If(IsDBNull(datos.lector("IDVenta")), 0, CType(datos.lector("IDVenta"), Integer))
+                aux.idProducto = If(IsDBNull(datos.lector("IDProducto")), 0, CType(datos.lector("IDProducto"), Integer))
+                aux.precioUnitario = If(IsDBNull(datos.lector("PrecioUnitario")), 0, CType(datos.lector("PrecioUnitario"), Integer))
+                aux.cantidad = If(IsDBNull(datos.lector("Cantidad")), 0, CType(datos.lector("Cantidad"), Integer))
+                aux.precioTotal = If(IsDBNull(datos.lector("PrecioTotal")), 0, CType(datos.lector("PrecioTotal"), Decimal))
                 lista.Add(aux)
             End While
             Return lista
@@ -34,12 +34,12 @@ Public Class VentaItemNegocio
             datos.ejecutarLectura()
             While (datos.lector.Read())
                 Dim aux As New VentaItem
-                aux.id = CType(datos.lector("ID"), Integer)
-                aux.idVenta = CType(datos.lector("IDVenta"), Integer)
-                aux.idProducto = CType(datos.lector("IDProducto"), Integer)
-                aux.precioUnitario = CType(datos.lector("PrecioUnitario"), Decimal)
-                aux.cantidad = CType(datos.lector("Cantidad"), Integer)
-                aux.precioTotal = CType(datos.lector("PrecioTotal"), Decimal)
+                aux.id = If(IsDBNull(datos.lector("ID")), 0, CType(datos.lector("ID"), Integer))
+                aux.idVenta = If(IsDBNull(datos.lector("IDVenta")), 0, CType(datos.lector("IDVenta"), Integer))
+                aux.idProducto = If(IsDBNull(datos.lector("IDProducto")), 0, CType(datos.lector("IDProducto"), Integer))
+                aux.precioUnitario = If(IsDBNull(datos.lector("PrecioUnitario")), 0, CType(datos.lector("PrecioUnitario"), Integer))
+                aux.cantidad = If(IsDBNull(datos.lector("Cantidad")), 0, CType(datos.lector("Cantidad"), Integer))
+                aux.precioTotal = If(IsDBNull(datos.lector("PrecioTotal")), 0, CType(datos.lector("PrecioTotal"), Decimal))
                 lista.Add(aux)
             End While
             Return lista

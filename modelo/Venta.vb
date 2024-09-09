@@ -1,7 +1,7 @@
 ﻿Namespace modelo
     Public Class Venta
         Private _id As Integer
-        Private _cliente As Cliente
+        Private _cliente As New Cliente
         Private _fecha As DateTime
         Private _total As Decimal
 

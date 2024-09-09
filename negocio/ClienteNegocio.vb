@@ -9,10 +9,10 @@ Public Class ClienteNegocio
             datos.ejecutarLectura()
             While (datos.lector.Read())
                 Dim aux As New Cliente
-                aux.id = CType(datos.lector("ID"), Integer)
-                aux.cliente = CType(datos.lector("Cliente"), String)
-                aux.telefono = CType(datos.lector("Telefono"), String)
-                aux.correo = CType(datos.lector("Correo"), String)
+                aux.id = If(IsDBNull(datos.lector("ID")), 0, CType(datos.lector("ID"), Integer))
+                aux.cliente = If(IsDBNull(datos.lector("Cliente")), String.Empty, CType(datos.lector("Cliente"), String))
+                aux.telefono = If(IsDBNull(datos.lector("Telefono")), String.Empty, CType(datos.lector("Telefono"), String))
+                aux.correo = If(IsDBNull(datos.lector("Correo")), String.Empty, CType(datos.lector("Correo"), String))
                 lista.Add(aux)
             End While
             Return lista
@@ -31,10 +31,10 @@ Public Class ClienteNegocio
             datos.setearParametro("@id", id)
             datos.ejecutarLectura()
             While (datos.lector.Read())
-                aux.id = CType(datos.lector("ID"), Integer)
-                aux.cliente = CType(datos.lector("Cliente"), String)
-                aux.telefono = CType(datos.lector("Telefono"), String)
-                aux.correo = CType(datos.lector("Correo"), String)
+                aux.id = If(IsDBNull(datos.lector("ID")), 0, CType(datos.lector("ID"), Integer))
+                aux.cliente = If(IsDBNull(datos.lector("Cliente")), String.Empty, CType(datos.lector("Cliente"), String))
+                aux.telefono = If(IsDBNull(datos.lector("Telefono")), String.Empty, CType(datos.lector("Telefono"), String))
+                aux.correo = If(IsDBNull(datos.lector("Correo")), String.Empty, CType(datos.lector("Correo"), String))
             End While
             Return aux
         Catch ex As Exception

@@ -1,8 +1,8 @@
 ﻿Imports modelo.modelo
 
 Public Class Factura
-    Private _cabecera As Venta
-    Private _detalle As List(Of VentaItem)
+    Private _cabecera As New Venta
+    Private _detalle As New List(Of VentaItem)
     Public Property cabecera As Venta
         Get
             Return _cabecera

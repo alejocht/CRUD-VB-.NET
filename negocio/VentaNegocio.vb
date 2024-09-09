@@ -9,10 +9,12 @@ Public Class VentaNegocio
             datos.ejecutarLectura()
             While (datos.lector.Read())
                 Dim aux As New Venta
+                Dim negocioCliente As New ClienteNegocio
                 aux.id = CType(datos.lector("ID"), Integer)
-                aux.idCliente = CType(datos.lector("IDCliente"), Integer)
+                aux.cliente = negocioCliente.listar(CType(datos.lector("IDCliente"), Integer))
                 aux.fecha = CType(datos.lector("Fecha"), Date)
-                aux.total = CType(datos.lector("Total"), Decimal)
+                aux.total = If(IsDBNull(datos.lector("Total")), 0, CType(datos.lector("Total"), Decimal))
+
                 modificarTotal(aux.id)
                 lista.Add(aux)
             End While
@@ -31,11 +33,12 @@ Public Class VentaNegocio
             datos.setearConsulta("SELECT * FROM Ventas where ID = @id")
             datos.setearParametro("@id", id)
             datos.ejecutarLectura()
+            Dim negocioCliente As New ClienteNegocio
             While (datos.lector.Read())
                 aux.id = CType(datos.lector("ID"), Integer)
-                aux.idCliente = CType(datos.lector("IDCliente"), Integer)
+                aux.cliente = negocioCliente.listar(CType(datos.lector("IDCliente"), Integer))
                 aux.fecha = CType(datos.lector("Fecha"), Date)
-                aux.total = CType(datos.lector("Total"), Decimal)
+                aux.total = If(IsDBNull(datos.lector("Total")), 0, CType(datos.lector("Total"), Decimal))
             End While
             Return aux
         Catch ex As Exception
@@ -49,7 +52,7 @@ Public Class VentaNegocio
         Dim datos As New AccesoDatos
         Try
             datos.setearConsulta("INSERT INTO ventas ( IDCliente, Fecha) values ( @idcliente, @fecha)")
-            datos.setearParametro("@idcliente", venta.idCliente)
+            datos.setearParametro("@idcliente", venta.cliente.id)
             datos.setearParametro("@fecha", venta.fecha)
             datos.ejecutarAccion()
         Catch ex As Exception
@@ -64,7 +67,7 @@ Public Class VentaNegocio
         Try
             datos.setearConsulta("UPDATE ventas SET IDCliente = @idcliente, Fecha = @fecha where ID = @id")
             datos.setearParametro("@id", venta.id)
-            datos.setearParametro("@idcliente", venta.idCliente)
+            datos.setearParametro("@idcliente", venta.cliente.id)
             datos.setearParametro("@fecha", venta.fecha)
             modificarTotal(venta.id)
             datos.ejecutarAccion()
