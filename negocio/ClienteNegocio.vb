@@ -23,11 +23,31 @@ Public Class ClienteNegocio
         End Try
     End Function
 
+    Public Function listar(id As Integer) As Cliente
+        Dim datos As New AccesoDatos
+        Dim aux As New Cliente
+        Try
+            datos.setearConsulta("SELECT * FROM Clientes where ID = @id")
+            datos.setearParametro("@id", id)
+            datos.ejecutarLectura()
+            While (datos.lector.Read())
+                aux.id = CType(datos.lector("ID"), Integer)
+                aux.cliente = CType(datos.lector("Cliente"), String)
+                aux.telefono = CType(datos.lector("Telefono"), String)
+                aux.correo = CType(datos.lector("Correo"), String)
+            End While
+            Return aux
+        Catch ex As Exception
+            Throw ex
+        Finally
+            datos.cerrarConexion()
+        End Try
+    End Function
+
     Public Sub agregar(cliente As Cliente)
         Dim datos As New AccesoDatos
         Try
-            datos.setearConsulta("INSERT INTO clientes (ID, Cliente, Telefono, Correo) VALUES (@id, @cliente, @telefono, @correo)")
-            datos.setearParametro("@id", cliente.id)
+            datos.setearConsulta("INSERT INTO clientes ( Cliente, Telefono, Correo) VALUES ( @cliente, @telefono, @correo)")
             datos.setearParametro("@cliente", cliente.cliente)
             datos.setearParametro("@telefono", cliente.telefono)
             datos.setearParametro("@correo", cliente.correo)

@@ -25,11 +25,33 @@ Public Class ProductoNegocio
 
     End Function
 
+    Public Function listar(id As Integer) As Producto
+        Dim datos As New AccesoDatos
+        Dim aux As New Producto
+        Try
+            datos.setearConsulta("SELECT * FROM productos where ID = @id")
+            datos.setearParametro("@id", id)
+            datos.ejecutarLectura()
+            While (datos.lector.Read())
+                aux.id = CType(datos.lector("ID"), Integer)
+                aux.nombre = CType(datos.lector("Nombre"), String)
+                aux.precio = CType(datos.lector("Precio"), Decimal)
+                aux.categoria = CType(datos.lector("Categoria"), String)
+            End While
+
+            Return aux
+        Catch ex As Exception
+            Throw ex
+        Finally
+            datos.cerrarConexion()
+        End Try
+
+    End Function
+
     Public Sub agregar(producto As Producto)
         Dim datos As New AccesoDatos
         Try
             datos.setearConsulta("INSERT INTO productos (Nombre, Precio, Categoria) values (@nombre, @precio, @categoria)")
-            datos.setearParametro("@id", producto.id)
             datos.setearParametro("@nombre", producto.nombre)
             datos.setearParametro("@precio", producto.precio)
             datos.setearParametro("@categoria", producto.categoria)

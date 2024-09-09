@@ -50,5 +50,9 @@
                 _total = value
             End Set
         End Property
+
+        Public Overrides Function ToString() As String
+            Return "[ ID: " + id.ToString() + " ID Cliente: " + idCliente.ToString() + " Fecha: " + fecha.ToString() + " Total: $" + total + " ]"
+        End Function
     End Class
 End Namespace

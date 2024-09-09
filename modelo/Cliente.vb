@@ -51,5 +51,9 @@ Namespace modelo
                 _correo = value
             End Set
         End Property
+
+        Public Overrides Function ToString() As String
+            Return "[" + " ID: " + id.ToString() + " Cliente: " + cliente + " Telefono: " + telefono + " Correo: " + correo + " ]"
+        End Function
     End Class
 End Namespace

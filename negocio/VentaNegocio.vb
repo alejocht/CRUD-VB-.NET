@@ -23,6 +23,27 @@ Public Class VentaNegocio
         End Try
     End Function
 
+    Public Function listar(id As Integer) As Venta
+        Dim datos As New AccesoDatos
+        Dim aux As New Venta
+        Try
+            datos.setearConsulta("SELECT * FROM Ventas where ID = @id")
+            datos.setearParametro("@id", id)
+            datos.ejecutarLectura()
+            While (datos.lector.Read())
+                aux.id = CType(datos.lector("ID"), Integer)
+                aux.idCliente = CType(datos.lector("IDCliente"), Integer)
+                aux.fecha = CType(datos.lector("Fecha"), Date)
+                aux.total = CType(datos.lector("Total"), Decimal)
+            End While
+            Return aux
+        Catch ex As Exception
+            Throw ex
+        Finally
+            datos.cerrarConexion()
+        End Try
+    End Function
+
     Public Sub agregar(venta As Venta)
         Dim datos As New AccesoDatos
         Try
