@@ -19,9 +19,6 @@ Module Principal
                 Case "3"
                     consola.mostrarSubMenuVentas()
                 Case "0"
-                    Console.WriteLine($"{"ID".PadRight(10)} {"Cliente".PadRight(50)} {"Telefono".PadRight(20)} {"Correo".PadRight(20)}")
-                    Console.WriteLine(New String("-"c, 100))
-                    Console.ReadKey()
                     finDelPrograma = True
             End Select
             Console.Clear()

@@ -7,6 +7,8 @@ Public Class Interaccion
             Dim productoNegocio As New ProductoNegocio
             Dim lista As New List(Of Producto)
             lista = productoNegocio.listar()
+            Console.WriteLine($"{"ID".PadRight(10)} {"Nombre".PadRight(50)} {"Precio".PadRight(20)} {"Categoria".PadRight(20)}")
+            Console.WriteLine(New String("-"c, 100))
             For Each producto In lista
                 Console.WriteLine(producto.ToString())
             Next
@@ -74,8 +76,8 @@ Public Class Interaccion
             Dim clienteNegocio As New ClienteNegocio
             Dim lista As New List(Of Cliente)
             lista = clienteNegocio.listar()
-            'Console.WriteLine($"{"ID".PadRight(10)} {"Cliente".PadRight(50)} {"Telefono".PadRight(20)} {"Correo".PadRight(20)}")
-            'Console.WriteLine(New String("-"c, 100))
+            Console.WriteLine($"{"ID".PadRight(10)} {"Cliente".PadRight(50)} {"Telefono".PadRight(20)} {"Correo".PadRight(20)}")
+            Console.WriteLine(New String("-"c, 100))
             For Each cliente In lista
                 Console.WriteLine(cliente.ToString())
             Next
@@ -142,6 +144,8 @@ Public Class Interaccion
             Dim negocio As New VentaNegocio
             Dim lista As New List(Of Venta)
             lista = negocio.listar()
+            Console.WriteLine($"{"ID".PadRight(10)} {"ID Cliente".PadRight(13)} {"Fecha".PadRight(12)} {"Total".PadRight(20)}")
+            Console.WriteLine(New String("-"c, 52))
             For Each venta In lista
                 Console.WriteLine(venta.ToString())
             Next
@@ -207,6 +211,8 @@ Public Class Interaccion
             Dim negocio As New VentaItemNegocio
             Dim lista As New List(Of VentaItem)
             lista = negocio.listar()
+            Console.WriteLine($"{"ID".PadRight(10)} {"ID Venta".PadRight(13)} {"ID Producto".PadRight(12)} {"Precio".PadRight(12)} {"Cantidad".PadRight(11)} {"Importe".PadRight(15)}")
+            Console.WriteLine(New String("-"c, 73))
             For Each ventaItem In lista
                 Console.WriteLine(ventaItem.ToString())
             Next

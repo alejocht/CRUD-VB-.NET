@@ -75,7 +75,7 @@
         End Property
 
         Public Overrides Function ToString() As String
-            Return "[ ID: " + id.ToString() + " ID Venta: " + idVenta.ToString() + " ID Producto: " + idProducto.ToString() + " Precio Unitario: " + precioUnitario.ToString() + " Precio Total: " + precioTotal.ToString() + " ]"
+            Return $"{id.ToString.PadRight(10)} {idVenta.ToString.PadRight(13)} {idProducto.ToString.PadRight(12)} {precioUnitario.ToString.PadRight(12)} {cantidad.ToString.PadRight(11)} {precioTotal.ToString.PadRight(15)}"
         End Function
     End Class
 End Namespace
