@@ -27,7 +27,7 @@ Public Class InteraccionVenta
             Dim aux As New Venta
             Dim negocio As New VentaNegocio
             Console.WriteLine("CREAR NUEVA VENTA:")
-            aux.idCliente = InputBox("ID Cliente: ")
+            aux.cliente.id = InputBox("ID Cliente: ")
             aux.fecha = InputBox("Fecha yyyy-mm-dd : ")
             negocio.agregar(aux)
             Console.Clear()
@@ -52,7 +52,7 @@ Public Class InteraccionVenta
             idBuscar = InputBox("Ingrese el ID de la venta a modificar: ")
             aux = negocio.listar(idBuscar)
             Console.Clear()
-            aux.idCliente = InputBox("ID Cliente Actual: " + aux.idCliente.ToString() + "  Nuevo ID Cliente: ")
+            aux.cliente.id = InputBox("ID Cliente Actual: " + aux.cliente.ToString() + "  Nuevo ID Cliente: ")
             aux.fecha = InputBox("Fecha Actual: " + aux.fecha.ToString("yyyy-MM-dd") + "  Nueva fecha: ")
             aux.total = InputBox("Total Actual: " + aux.total.ToString() + "   Nuevo total: ")
             negocio.modificar(aux)
@@ -183,7 +183,7 @@ Public Class InteraccionVenta
 
 
         venta = negocioVenta.listar(nroVenta)
-        cliente = negocioCliente.listar(venta.idCliente)
+        cliente = negocioCliente.listar(venta.cliente.id)
         lista = negocioventaItem.listarItemsDeVenta(nroVenta)
 
         Console.WriteLine($"{"Fecha" + venta.fecha.ToString.PadRight(20)} {"Cliente: " + cliente.cliente.PadRight(80)}")

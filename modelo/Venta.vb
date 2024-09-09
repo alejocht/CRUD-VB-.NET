@@ -1,7 +1,7 @@
 ﻿Namespace modelo
     Public Class Venta
         Private _id As Integer
-        Private _idCliente As Integer
+        Private _cliente As Cliente
         Private _fecha As DateTime
         Private _total As Decimal
 
@@ -9,9 +9,9 @@
 
         End Sub
 
-        Public Sub New(ByVal id As Integer, ByVal idCliente As Integer, ByVal fecha As DateTime, total As Decimal)
+        Public Sub New(ByVal id As Integer, ByVal cliente As Cliente, ByVal fecha As DateTime, total As Decimal)
             _id = id
-            _idCliente = idCliente
+            _cliente = cliente
             _fecha = fecha
             _total = total
         End Sub
@@ -24,12 +24,12 @@
             End Set
         End Property
 
-        Public Property idCliente As Integer
+        Public Property cliente As Cliente
             Get
-                Return _idCliente
+                Return _cliente
             End Get
-            Set(value As Integer)
-                _idCliente = value
+            Set(value As Cliente)
+                _cliente = value
             End Set
         End Property
 
@@ -52,7 +52,7 @@
         End Property
 
         Public Overrides Function ToString() As String
-            Return $"{id.ToString.PadRight(10)} {idCliente.ToString.PadRight(13)} {fecha.ToString("yyyy-MM-dd").PadRight(12)} {"$" + total.ToString.PadRight(20)}"
+            Return $"{id.ToString.PadRight(10)} {cliente.cliente.PadRight(13)} {fecha.ToString("yyyy-MM-dd").PadRight(12)} {"$" + total.ToString.PadRight(20)}"
         End Function
     End Class
 End Namespace

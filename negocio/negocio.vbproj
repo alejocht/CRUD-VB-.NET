@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="AccesoDatos.vb" />
     <Compile Include="ClienteNegocio.vb" />
+    <Compile Include="FacturaNegocio.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
