@@ -86,12 +86,13 @@ Public Class InteraccionCliente
             Dim aux As New Cliente
             Dim clienteNegocio As New ClienteNegocio
             Dim idBuscar As Integer
-            idBuscar = InputBox("Ingrese el ID del cliente a modificar: ")
+            diccionarioDeClientes()
+            idBuscar = InputBox("Ingrese el ID del cliente a modificar (ID de clientes disponibles en consola): ")
             aux = clienteNegocio.listar(idBuscar)
             Console.Clear()
             aux.cliente = InputBox("Cliente Actual: " + aux.cliente + "  Nuevo Cliente: ")
             aux.telefono = InputBox("Telefono Actual: " + aux.telefono + "  Nuevo telefono: ")
-            aux.correo = InputBox("Categoria Actual: " + aux.correo + "   Nueva Categoria: ")
+            aux.correo = InputBox("Correo Actual: " + aux.correo + "   Nuevo Correo: ")
             clienteNegocio.modificar(aux)
             Console.WriteLine("Modificacion Exitosa.")
             Console.WriteLine("Toca una tecla para continuar...")
