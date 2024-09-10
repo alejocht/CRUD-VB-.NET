@@ -29,6 +29,76 @@ Public Class InteraccionVenta
                 Exit Sub
         End Select
     End Sub
+
+    Public Sub mostrarFactura()
+        Try
+            Dim nroVenta As Integer
+            nroVenta = CType(InputBox("Indique el numero de Factura: "), Integer)
+
+            Dim factura As New Factura
+            Dim negocio As New FacturaNegocio
+
+            factura = negocio.listar(nroVenta)
+            Console.WriteLine($"{"Fecha" + factura.cabecera.fecha.ToString("yyyy-MM-dd").PadRight(20)} {"Cliente: " + factura.cabecera.cliente.cliente.ToString.PadRight(80)}")
+            Console.WriteLine(New String("-"c, 100))
+
+            Console.WriteLine($"{"ID".PadRight(8)} {"ID Venta".PadRight(13)} {"ID Producto".PadRight(12)} {"Precio".PadRight(12)} {"Cantidad".PadRight(11)} {"Importe".PadRight(15)}")
+            Console.WriteLine(New String("-"c, 73))
+            For Each ventaItem In factura.detalle
+                Console.WriteLine(ventaItem.ToString())
+            Next
+            Console.WriteLine($"{" ".PadRight(50)} {"TOTAL: $" + factura.cabecera.total.ToString.PadRight(23)}")
+
+            Console.ReadKey()
+        Catch ex As Exception
+            Console.Clear()
+            Console.WriteLine("Hubo un error al mostrar la factura: " + ex.Message)
+            Console.WriteLine("Toca una tecla para continuar...")
+            Console.ReadKey()
+        End Try
+
+
+    End Sub
+
+    Public Sub agregarFactura()
+        Try
+            Dim factura As New Factura
+            Dim negocioVenta As New VentaNegocio
+            Dim negocioVentaItem As New VentaItemNegocio
+            Dim listaAux As New List(Of Venta)
+
+
+            factura.cabecera = agregarVenta()
+            listaAux = negocioVenta.listar()
+            negocioVenta.agregar(factura.cabecera)
+
+            Dim finCargaDeItems As Boolean = False
+            While Not finCargaDeItems
+                factura.detalle.Add(agregarVentaItem(listaAux.Last.id))
+                Console.Clear()
+                Console.WriteLine("Desea cargar otro item?")
+                Console.WriteLine("Presione cualquier tecla para seguir o 0 para terminar la carga")
+                Dim key As ConsoleKeyInfo = Console.ReadKey()
+                Console.Clear()
+                If key.KeyChar = "0" Then
+                    finCargaDeItems = True
+                End If
+
+            End While
+
+            For Each ventaItem In factura.detalle
+                negocioVentaItem.agregar(ventaItem)
+            Next
+
+            Console.WriteLine("Carga exitosa")
+            Console.ReadKey()
+        Catch ex As Exception
+            Console.Clear()
+            Console.WriteLine("Hubo un error al crear la factura: " + ex.Message)
+            Console.WriteLine("Toca una tecla para continuar...")
+            Console.ReadKey()
+        End Try
+    End Sub
     Public Sub mostrarVentas()
         Try
             Dim negocio As New VentaNegocio
@@ -158,59 +228,8 @@ Public Class InteraccionVenta
         End Try
     End Function
 
-    Public Sub mostrarFactura()
-        Dim nroVenta As Integer
-        nroVenta = CType(InputBox("Indique el numero de Factura: "), Integer)
-
-        Dim factura As New Factura
-        Dim negocio As New FacturaNegocio
-
-        factura = negocio.listar(nroVenta)
-        Console.WriteLine($"{"Fecha" + factura.cabecera.fecha.ToString("yyyy-MM-dd").PadRight(20)} {"Cliente: " + factura.cabecera.cliente.cliente.ToString.PadRight(80)}")
-        Console.WriteLine(New String("-"c, 100))
-
-        Console.WriteLine($"{"ID".PadRight(10)} {"ID Venta".PadRight(13)} {"ID Producto".PadRight(12)} {"Precio".PadRight(12)} {"Cantidad".PadRight(11)} {"Importe".PadRight(15)}")
-        Console.WriteLine(New String("-"c, 73))
-        For Each ventaItem In factura.detalle
-            Console.WriteLine(ventaItem.ToString())
-        Next
-        Console.WriteLine($"{" ".PadRight(50)} {"TOTAL: $" + factura.cabecera.total.ToString.PadRight(23)}")
-
-        Console.ReadKey()
-
-    End Sub
-
-    Public Sub agregarFactura()
-        Dim factura As New Factura
-        Dim negocioVenta As New VentaNegocio
-        Dim negocioVentaItem As New VentaItemNegocio
-        Dim listaAux As New List(Of Venta)
 
 
-        factura.cabecera = agregarVenta()
-        listaAux = negocioVenta.listar()
-        negocioVenta.agregar(factura.cabecera)
 
-        Dim finCargaDeItems As Boolean = False
-        While Not finCargaDeItems
-            factura.detalle.Add(agregarVentaItem(listaAux.Last.id))
-            Console.Clear()
-            Console.WriteLine("Desea cargar otro item?")
-            Console.WriteLine("Presione cualquier tecla para seguir o 0 para terminar la carga")
-            Dim key As ConsoleKeyInfo = Console.ReadKey()
-            Console.Clear()
-            If key.KeyChar = "0" Then
-                finCargaDeItems = True
-            End If
-
-        End While
-
-        For Each ventaItem In factura.detalle
-            negocioVentaItem.agregar(ventaItem)
-        Next
-
-        Console.WriteLine("Carga exitosa")
-        Console.ReadKey()
-    End Sub
 
 End Class
