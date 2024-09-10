@@ -34,7 +34,7 @@ Public Class InteraccionVenta
             Dim nroVenta As Integer
             mostrarVentas()
             nroVenta = CType(InputBox("Indique el ID de Venta que quiera abrir (Ventas disponibles por consola) : "), Integer)
-
+            Console.Clear()
             Dim factura As New Factura
             Dim negocio As New FacturaNegocio
 

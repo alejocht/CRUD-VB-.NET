@@ -108,6 +108,7 @@ Public Class InteraccionCliente
     End Sub
     Public Sub mostrarSubMenuClientes()
         While True
+            Console.Clear()
             Console.WriteLine("-MENU CLIENTES-")
             Console.WriteLine("1. Listar")
             Console.WriteLine("2. Agregar")

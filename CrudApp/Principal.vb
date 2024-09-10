@@ -7,6 +7,7 @@ Module Principal
     Sub Main()
         Dim finDelPrograma As Boolean = False
         While Not (finDelPrograma)
+            Console.Clear()
             Console.WriteLine("-MENU-")
             Console.WriteLine("1. Clientes")
             Console.WriteLine("2. Productos")
