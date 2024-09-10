@@ -8,8 +8,7 @@ Public Class InteraccionVenta
         Console.WriteLine("1. Listar")
         Console.WriteLine("2. Agregar")
         Console.WriteLine("3. Modificar")
-        Console.WriteLine("4. Filtrar")
-        Console.WriteLine("5. Mostrar Factura")
+        Console.WriteLine("4. Mostrar Factura")
         Console.WriteLine("0. Volver")
         Console.WriteLine("Presione el numero que desee...")
         Dim key As ConsoleKeyInfo = Console.ReadKey()
@@ -22,14 +21,11 @@ Public Class InteraccionVenta
             Case "3"
                 modificarVenta()
             Case "4"
-                'falta desarrollar
-            Case "5"
                 mostrarFactura()
             Case "0"
                 Exit Sub
         End Select
     End Sub
-
     Public Sub mostrarFactura()
         Try
             Dim nroVenta As Integer
@@ -59,7 +55,6 @@ Public Class InteraccionVenta
 
 
     End Sub
-
     Public Sub agregarFactura()
         Try
             Dim factura As New Factura
@@ -69,12 +64,19 @@ Public Class InteraccionVenta
 
 
             factura.cabecera = agregarVenta()
-            listaAux = negocioVenta.listar()
             negocioVenta.agregar(factura.cabecera)
+            listaAux = negocioVenta.listar()
+            Dim id As Integer
+
+            If listaAux IsNot Nothing AndAlso listaAux.Count > 0 Then
+                id = listaAux.Last.id
+            Else
+                id = 1
+            End If
 
             Dim finCargaDeItems As Boolean = False
             While Not finCargaDeItems
-                factura.detalle.Add(agregarVentaItem(listaAux.Last.id))
+                factura.detalle.Add(agregarVentaItem(id))
                 Console.Clear()
                 Console.WriteLine("Desea cargar otro item?")
                 Console.WriteLine("Presione cualquier tecla para seguir o 0 para terminar la carga")
@@ -89,6 +91,8 @@ Public Class InteraccionVenta
             For Each ventaItem In factura.detalle
                 negocioVentaItem.agregar(ventaItem)
             Next
+
+            negocioVenta.modificarTotal(id)
 
             Console.WriteLine("Carga exitosa")
             Console.ReadKey()
@@ -121,7 +125,10 @@ Public Class InteraccionVenta
     Public Function agregarVenta() As Venta
         Try
             Dim aux As New Venta
-            aux.cliente.id = InputBox("ID Cliente: ")
+            Dim consola As New InteraccionCliente
+            consola.diccionarioDeClientes()
+            aux.cliente.id = InputBox("ID Cliente (Clientes Disponibles mostrados por consola): ")
+            Console.Clear()
             aux.fecha = InputBox("Fecha yyyy-mm-dd : ")
             Console.Clear()
             Return aux
@@ -132,7 +139,6 @@ Public Class InteraccionVenta
             Console.Clear()
         End Try
     End Function
-
     Public Sub modificarVenta()
         Try
             Dim aux As New Venta
@@ -156,7 +162,6 @@ Public Class InteraccionVenta
             Console.Clear()
         End Try
     End Sub
-
     Public Sub mostrarVentaItems()
         Try
             Dim negocio As New VentaItemNegocio
@@ -176,40 +181,16 @@ Public Class InteraccionVenta
             Console.Clear()
         End Try
     End Sub
-
-    Public Function agregarVentaItem() As VentaItem
-        Try
-            Dim aux As New VentaItem
-            Dim producto As New Producto
-            Dim negocioProducto As New ProductoNegocio
-            Console.WriteLine("AGREGAR OTRO ITEM DE VENTA:")
-            aux.idProducto = InputBox("ID de Producto: ")
-            producto = negocioProducto.listar(aux.idProducto)
-            aux.precioUnitario = producto.precio
-            aux.cantidad = InputBox("Cantidad: ")
-            aux.precioTotal = aux.precioUnitario * aux.cantidad
-            Console.Clear()
-            Console.WriteLine("El item de venta se agrego correctamente.")
-            Console.WriteLine("Toca una tecla para continuar...")
-            Console.ReadKey()
-            Console.Clear()
-            Return aux
-        Catch ex As Exception
-            Console.WriteLine("Hubo un error al agregar la venta: " + ex.Message)
-            Console.WriteLine("Toca una tecla para continuar...")
-            Console.ReadKey()
-            Console.Clear()
-        End Try
-    End Function
-
     Public Function agregarVentaItem(idVenta As Integer) As VentaItem
         Try
             Dim aux As New VentaItem
             Dim producto As New Producto
             Dim negocioProducto As New ProductoNegocio
-            Console.WriteLine("AGREGAR OTRO ITEM DE VENTA:")
+            Dim consola As New InteraccionProducto
+            Console.WriteLine("AGREGAR ITEM DE VENTA:")
             aux.idVenta = idVenta
-            aux.idProducto = InputBox("ID de Producto: ")
+            consola.diccionarioDeProductos()
+            aux.idProducto = InputBox("ID de Producto (Productos Disponibles mostrados por consola): ")
             producto = negocioProducto.listar(aux.idProducto)
             aux.precioUnitario = producto.precio
             aux.cantidad = InputBox("Cantidad: ")
@@ -226,10 +207,7 @@ Public Class InteraccionVenta
             Console.ReadKey()
             Console.Clear()
         End Try
+        Return New VentaItem(-1, -1, -1, -1, -1, -1)
     End Function
-
-
-
-
 
 End Class

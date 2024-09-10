@@ -14,18 +14,4 @@ Public Class FacturaNegocio
             Throw ex
         End Try
     End Function
-
-    Public Sub agregar(factura As Factura)
-        Try
-            Dim negocioVenta As New VentaNegocio
-            Dim negocioVentaItem As New VentaItemNegocio
-
-            negocioVenta.agregar(factura.cabecera)
-            For Each ventaItem In factura.detalle
-                negocioVentaItem.agregar(ventaItem)
-            Next
-        Catch ex As Exception
-            Throw ex
-        End Try
-    End Sub
 End Class

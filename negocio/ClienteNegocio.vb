@@ -43,7 +43,37 @@ Public Class ClienteNegocio
             datos.cerrarConexion()
         End Try
     End Function
+    Public Function listarFiltro(filtro As String, tipoFiltro As String) As List(Of Cliente)
+        Dim datos As New AccesoDatos
+        Dim lista As New List(Of Cliente)
+        Dim cadenaDeFiltro As String = String.Empty
+        Try
+            Select Case tipoFiltro
+                Case "comienza por"
+                    cadenaDeFiltro = "'" + filtro + "%'"
+                Case "contiene"
+                    cadenaDeFiltro = "'%" + filtro + "%'"
+                Case "termina con"
+                    cadenaDeFiltro = "'%" + filtro + "'"
+            End Select
 
+            datos.setearConsulta("SELECT * FROM Clientes where Cliente like " + cadenaDeFiltro)
+            datos.ejecutarLectura()
+            While (datos.lector.Read())
+                Dim aux As New Cliente
+                aux.id = If(IsDBNull(datos.lector("ID")), 0, CType(datos.lector("ID"), Integer))
+                aux.cliente = If(IsDBNull(datos.lector("Cliente")), String.Empty, CType(datos.lector("Cliente"), String))
+                aux.telefono = If(IsDBNull(datos.lector("Telefono")), String.Empty, CType(datos.lector("Telefono"), String))
+                aux.correo = If(IsDBNull(datos.lector("Correo")), String.Empty, CType(datos.lector("Correo"), String))
+                lista.Add(aux)
+            End While
+            Return lista
+        Catch ex As Exception
+            Throw ex
+        Finally
+            datos.cerrarConexion()
+        End Try
+    End Function
     Public Sub agregar(cliente As Cliente)
         Dim datos As New AccesoDatos
         Try

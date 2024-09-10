@@ -2,6 +2,23 @@
 Imports negocio
 
 Public Class InteraccionProducto
+    Public Sub diccionarioDeProductos()
+        Try
+            Dim productoNegocio As New ProductoNegocio
+            Dim lista As New List(Of Producto)
+            lista = productoNegocio.listar()
+            Console.WriteLine($"{"ID".PadRight(10)} {"Nombre".PadRight(50)}")
+            Console.WriteLine(New String("-"c, 60))
+            For Each producto In lista
+                Console.WriteLine($"{producto.id.ToString.PadRight(10)} {producto.nombre.PadRight(50)}")
+            Next
+        Catch ex As Exception
+            Console.WriteLine("Hubo un error al mostrar la lista:" + ex.Message)
+            Console.WriteLine("Toca una tecla para continuar...")
+            Console.ReadKey()
+            Console.Clear()
+        End Try
+    End Sub
     Public Sub mostrarProductos()
         Try
             Dim productoNegocio As New ProductoNegocio
@@ -33,8 +50,7 @@ Public Class InteraccionProducto
             aux.categoria = InputBox("Categoria: ")
             productoNegocio.agregar(aux)
             Console.Clear()
-            Console.WriteLine("El producto se agrego correctamente.")
-            Console.WriteLine(aux.ToString())
+            Console.WriteLine("El producto" + aux.nombre + " se agrego correctamente.")
             Console.WriteLine("Toca una tecla para continuar...")
             Console.ReadKey()
             Console.Clear()
@@ -76,7 +92,6 @@ Public Class InteraccionProducto
         Console.WriteLine("1. Listar")
         Console.WriteLine("2. Agregar")
         Console.WriteLine("3. Modificar")
-        Console.WriteLine("4. Filtrar")
         Console.WriteLine("0. Volver")
         Console.WriteLine("Presione el numero que desee...")
         Dim key As ConsoleKeyInfo = Console.ReadKey()
@@ -88,8 +103,6 @@ Public Class InteraccionProducto
                 agregarProducto()
             Case "3"
                 modificarProducto()
-            Case "4"
-                'falta desarrollar
             Case "0"
                 Exit Sub
         End Select
