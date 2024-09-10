@@ -107,53 +107,57 @@ Public Class InteraccionCliente
         End Try
     End Sub
     Public Sub mostrarSubMenuClientes()
-        Console.WriteLine("-MENU CLIENTES-")
-        Console.WriteLine("1. Listar")
-        Console.WriteLine("2. Agregar")
-        Console.WriteLine("3. Modificar")
-        Console.WriteLine("4. Filtro")
-        Console.WriteLine("0. Volver")
-        Console.WriteLine("Presione el numero que desee...")
-        Dim key As ConsoleKeyInfo = Console.ReadKey()
-        Console.Clear()
-        Select Case key.KeyChar
-            Case "1"
-                mostrarClientes()
-            Case "2"
-                agregarCliente()
-            Case "3"
-                modificarCliente()
-            Case "4"
-                mostrarConFiltro()
-            Case "0"
-                Exit Sub
-        End Select
+        While True
+            Console.WriteLine("-MENU CLIENTES-")
+            Console.WriteLine("1. Listar")
+            Console.WriteLine("2. Agregar")
+            Console.WriteLine("3. Modificar")
+            Console.WriteLine("4. Filtro")
+            Console.WriteLine("0. Volver")
+            Console.WriteLine("Presione el numero que desee...")
+            Dim key As ConsoleKeyInfo = Console.ReadKey()
+            Console.Clear()
+            Select Case key.KeyChar
+                Case "1"
+                    mostrarClientes()
+                Case "2"
+                    agregarCliente()
+                Case "3"
+                    modificarCliente()
+                Case "4"
+                    mostrarConFiltro()
+                Case "0"
+                    Exit Sub
+            End Select
+        End While
     End Sub
     Public Sub mostrarConFiltro()
-        Console.Clear()
-        Console.WriteLine("-FILTRO Nombre de Cliente-")
-        Console.WriteLine("1. Comienza por")
-        Console.WriteLine("2. Contiene")
-        Console.WriteLine("3. Termina con")
-        Console.WriteLine("0. Volver")
-        Console.WriteLine("Seleccione una opcion")
-        Dim key As ConsoleKeyInfo = Console.ReadKey()
-        Console.Clear()
-        Dim filtro As String = String.Empty
-        Dim negocio As New ClienteNegocio
+        While True
+            Console.Clear()
+            Console.WriteLine("-FILTRO Nombre de Cliente-")
+            Console.WriteLine("1. Comienza por")
+            Console.WriteLine("2. Contiene")
+            Console.WriteLine("3. Termina con")
+            Console.WriteLine("0. Volver")
+            Console.WriteLine("Seleccione una opcion")
+            Dim key As ConsoleKeyInfo = Console.ReadKey()
+            Console.Clear()
+            Dim filtro As String = String.Empty
+            Dim negocio As New ClienteNegocio
 
-        Select Case key.KeyChar
-            Case "1"
-                filtro = InputBox("Comienza Por: ")
-                mostrarClientes(negocio.listarFiltro(filtro, "comienza por"))
-            Case "2"
-                filtro = InputBox("Contiene: ")
-                mostrarClientes(negocio.listarFiltro(filtro, "contiene"))
-            Case "3"
-                filtro = InputBox("Termina con: ")
-                mostrarClientes(negocio.listarFiltro(filtro, "termina con"))
-            Case "0"
-                Exit Sub
-        End Select
+            Select Case key.KeyChar
+                Case "1"
+                    filtro = InputBox("Comienza Por: ")
+                    mostrarClientes(negocio.listarFiltro(filtro, "comienza por"))
+                Case "2"
+                    filtro = InputBox("Contiene: ")
+                    mostrarClientes(negocio.listarFiltro(filtro, "contiene"))
+                Case "3"
+                    filtro = InputBox("Termina con: ")
+                    mostrarClientes(negocio.listarFiltro(filtro, "termina con"))
+                Case "0"
+                    Exit Sub
+            End Select
+        End While
     End Sub
 End Class

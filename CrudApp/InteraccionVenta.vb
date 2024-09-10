@@ -4,27 +4,30 @@ Imports negocio
 
 Public Class InteraccionVenta
     Public Sub mostrarSubMenuVentas()
-        Console.WriteLine("-MENU VENTAS-")
-        Console.WriteLine("1. Listar")
-        Console.WriteLine("2. Agregar")
-        Console.WriteLine("3. Modificar")
-        Console.WriteLine("4. Mostrar Factura")
-        Console.WriteLine("0. Volver")
-        Console.WriteLine("Presione el numero que desee...")
-        Dim key As ConsoleKeyInfo = Console.ReadKey()
-        Console.Clear()
-        Select Case key.KeyChar
-            Case "1"
-                mostrarVentas()
-            Case "2"
-                agregarFactura()
-            Case "3"
-                modificarVenta()
-            Case "4"
-                mostrarFactura()
-            Case "0"
-                Exit Sub
-        End Select
+        While True
+            Console.Clear()
+            Console.WriteLine("-MENU VENTAS-")
+            Console.WriteLine("1. Listar")
+            Console.WriteLine("2. Agregar")
+            Console.WriteLine("3. Modificar")
+            Console.WriteLine("4. Mostrar Factura")
+            Console.WriteLine("0. Volver")
+            Console.WriteLine("Presione el numero que desee...")
+            Dim key As ConsoleKeyInfo = Console.ReadKey()
+            Console.Clear()
+            Select Case key.KeyChar
+                Case "1"
+                    mostrarVentas()
+                Case "2"
+                    agregarFactura()
+                Case "3"
+                    modificarFactura()
+                Case "4"
+                    mostrarFactura()
+                Case "0"
+                    Exit Sub
+            End Select
+        End While
     End Sub
     Public Sub mostrarFactura()
         Try
@@ -61,7 +64,7 @@ Public Class InteraccionVenta
 
             Dim factura As New Factura
             Dim negocio As New FacturaNegocio
-
+            Console.Clear()
             factura = negocio.listar(nroVenta)
             Console.WriteLine($"{"Fecha" + factura.cabecera.fecha.ToString("yyyy-MM-dd").PadRight(20)} {"Cliente: " + factura.cabecera.cliente.cliente.ToString.PadRight(80)}")
             Console.WriteLine(New String("-"c, 100))
@@ -73,7 +76,7 @@ Public Class InteraccionVenta
             Next
             Console.WriteLine($"{" ".PadRight(50)} {"TOTAL: $" + factura.cabecera.total.ToString.PadRight(23)}")
 
-            Console.ReadKey()
+
         Catch ex As Exception
             Console.Clear()
             Console.WriteLine("Hubo un error al mostrar la factura: " + ex.Message)
@@ -235,7 +238,6 @@ Public Class InteraccionVenta
             Console.Clear()
         End Try
     End Function
-
     Public Sub modificarFactura()
         Try
             mostrarVentas()
@@ -250,33 +252,35 @@ Public Class InteraccionVenta
             Dim consola As New InteraccionCliente
 
             factura = negocio.listar(id)
+            While True
+                Console.Clear()
+                Console.WriteLine("-MENU- VENTA ID " + id.ToString)
+                Console.WriteLine("1. Modificar Cliente")
+                Console.WriteLine("2. Modificar Fecha")
+                Console.WriteLine("3. Modificar Items")
+                Console.WriteLine("0. Volver")
+                Console.WriteLine("Presione el numero que desee...")
+                Dim key As ConsoleKeyInfo = Console.ReadKey()
+                Console.Clear()
+                Select Case key.KeyChar
+                    Case "1"
+                        consola.diccionarioDeClientes()
+                        factura.cabecera.cliente.id = InputBox("Elija el ID de Cliente nuevo (Clientes Disponibles mostrados por consola):")
+                        negocioVenta.modificar(factura.cabecera)
+                        Console.WriteLine("Modificacion completa.")
+                        Console.ReadKey()
 
-            Console.WriteLine("-MENU- VENTA ID " + id.ToString)
-            Console.WriteLine("1. Modificar Cliente")
-            Console.WriteLine("2. Modificar Fecha")
-            Console.WriteLine("3. Modificar Items")
-            Console.WriteLine("0. Volver")
-            Console.WriteLine("Presione el numero que desee...")
-            Dim key As ConsoleKeyInfo = Console.ReadKey()
-            Console.Clear()
-            Select Case key.KeyChar
-                Case "1"
-                    consola.diccionarioDeClientes()
-                    factura.cabecera.cliente.id = InputBox("Elija el ID de Cliente nuevo (Clientes Disponibles mostrados por consola):")
-                    negocioVenta.modificar(factura.cabecera)
-                    Console.WriteLine("Modificacion completa.")
-                    Console.ReadKey()
-
-                Case "2"
-                    factura.cabecera.fecha = InputBox("Nueva Fecha yyyy-MM-dd :")
-                    negocioVenta.modificar(factura.cabecera)
-                    Console.WriteLine("Modificacion completa.")
-                    Console.ReadKey()
-                Case "3"
-
-                Case "0"
-                    Exit Sub
-            End Select
+                    Case "2"
+                        factura.cabecera.fecha = InputBox("Nueva Fecha yyyy-MM-dd :")
+                        negocioVenta.modificar(factura.cabecera)
+                        Console.WriteLine("Modificacion completa.")
+                        Console.ReadKey()
+                    Case "3"
+                        menuDeItems(factura)
+                    Case "0"
+                        Exit Sub
+                End Select
+            End While
         Catch ex As Exception
             Console.WriteLine("Hubo un error al modificar la venta: " + ex.Message)
             Console.WriteLine("Toca una tecla para continuar...")
@@ -287,31 +291,36 @@ Public Class InteraccionVenta
 
 
     End Sub
-
     Sub menuDeItems(factura As Factura)
-        Dim auxventaItem As New VentaItem
-        Dim negocio As New VentaItemNegocio
+        While True
+            Dim auxventaItem As New VentaItem
+            Dim negocio As New VentaItemNegocio
+            Dim negocioventa As New VentaNegocio
 
-        Console.Clear()
-        Console.WriteLine("-SUBMENU- VENTA ID " + factura.cabecera.cliente.id.ToString)
-        Console.WriteLine("1. Agregar Item")
-        Console.WriteLine("2. Modificar Item")
-        Console.WriteLine("0. Volver")
-        Console.WriteLine("Presione el numero que desee...")
-        Dim key As ConsoleKeyInfo = Console.ReadKey()
-        Console.Clear()
-        Select Case key.KeyChar
-            Case "1"
-                auxventaItem = agregarVentaItem(factura.cabecera.cliente.id)
-                negocio.agregar(auxventaItem)
-            Case "2"
-                mostrarFactura(factura.cabecera.cliente.id)
-                Dim idItem As Integer
-                idItem = InputBox("Seleccione el ID del item a Modificar (Items disponibles en consola):")
-                auxventaItem = agregarVentaItem(idItem)
-                negocio.modificar(auxventaItem)
-            Case "0"
-                Exit Sub
-        End Select
+            Console.Clear()
+            Console.WriteLine("-SUBMENU- VENTA ID " + factura.cabecera.id.ToString)
+            Console.WriteLine("1. Agregar Item")
+            Console.WriteLine("2. Modificar Item")
+            Console.WriteLine("0. Volver")
+            Console.WriteLine("Presione el numero que desee...")
+            Dim key As ConsoleKeyInfo = Console.ReadKey()
+            Console.Clear()
+            Select Case key.KeyChar
+                Case "1"
+                    auxventaItem = agregarVentaItem(factura.cabecera.id)
+                    negocio.agregar(auxventaItem)
+                Case "2"
+                    mostrarFactura(factura.cabecera.cliente.id)
+                    Dim idItem As Integer
+                    idItem = InputBox("Seleccione el ID del item a Modificar (Items disponibles en consola):")
+                    auxventaItem = agregarVentaItem(idItem)
+                    negocio.modificar(auxventaItem)
+                    Console.WriteLine("Modificacion completa.")
+                    Console.ReadKey()
+                Case "0"
+                    Exit Sub
+            End Select
+            negocioventa.modificarTotal(factura.cabecera.id)
+        End While
     End Sub
 End Class
